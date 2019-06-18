@@ -19,9 +19,11 @@ const app = express();
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
+// static
+app.use("/uploads", express.static("uploads"));
 
 // router
-app.use("/api/users", require("./routes/api/users"))
+app.use("/api/users", require("./routes/api/user/"))
 
 
 const port = process.env.PORT || 1270;

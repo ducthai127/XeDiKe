@@ -24,6 +24,7 @@ app.use("/uploads", express.static("uploads"));
 
 // router
 app.use("/api/users", require("./routes/api/user/"))
+app.use("/api/trips", require("./routes/api/trips"))
 
 
 const port = process.env.PORT || 1270;

@@ -30,7 +30,7 @@ const authorizing = (userTypeArray) => {
         if(userType === userTypeArray) {
             return next()
         } else {
-            res.status(403).json({errors: "bạn đã đăng nhập, nhưng ko có wuyen xem điều này"})
+            res.status(403).json({errors: "bạn đã đăng nhập, nhưng ko có quyền xem điều này"})
         }
     }
 

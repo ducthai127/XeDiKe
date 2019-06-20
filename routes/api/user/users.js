@@ -1,18 +1,21 @@
 const {User} = require("../../../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+const validateRegisterInput = require("../../../validation/validateRegisterInput");
 
 // route: POST/api/users/register
 // desc: register new user
 // access: PUBLIC
-const register = (req, res, next) => {
+const register = async (req, res, next) => {
+    const {isValid, errors} = await validateRegisterInput(req.body);
+    if(!isValid) return res.status(400).json(errors);
+
     const {email, password, fullName, userType, phone, DOB} = req.body;
 
     // giả định: input valid
-    User.findOne({$or: [{email}, {phone}]})
-    .then(user => {
-        if(user) return Promise.reject({errors: "Email or Phone exists"})
+    // User.findOne({$or: [{email}, {phone}]})
+    // .then(user => {
+    //     if(user) return Promise.reject({errors: "Email or Phone exists"})
 
         const newUser = new User({
             email, password, fullName, userType, phone, DOB
@@ -30,8 +33,8 @@ const register = (req, res, next) => {
                 .catch(err => res.status(400).json(err))
             })
         })
-    })
-    .catch(err => res.status(400).json(err))
+    // })
+    // .catch(err => res.status(400).json(err))
 }
 
 

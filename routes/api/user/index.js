@@ -1,7 +1,7 @@
 const express = require("express");
 const userController = require("./users");
 const { authenticating, authorizing } = require("../../../middlewares/auth");
-const upload = require ("../../../middlewares/uploadImage");
+const upload = require("../../../middlewares/uploadImage");
 
 const router = express.Router();
 
@@ -19,5 +19,6 @@ router.post(
   upload.single("avatar"),
   userController.uploadAvatar
 );
+router.get("/:id", authenticating, userController.getUserById)
 
 module.exports = router;

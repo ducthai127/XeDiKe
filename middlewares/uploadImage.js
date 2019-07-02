@@ -5,8 +5,8 @@ const storage = multer.diskStorage({
   },
   filename: function(req, file, cb) {
     let type = "";
+    console.log("2", file)
     if (file.mimetype === "application/octet-stream" || !file.mimetype) type = ".jpg";
-    console.log("2", file.mimetype)
     cb(null,  Date.now() + "-" + file.originalname + type);
   }
 });

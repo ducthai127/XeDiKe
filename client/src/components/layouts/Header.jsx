@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Collapse,
   Navbar,
@@ -7,7 +7,10 @@ import {
   Nav,
   NavItem,
   NavLink
-} from "reactstrap";
+} from 'reactstrap';
+import { Link } from 'react-router-dom';
+import { connect } from "react-redux";
+import { logout } from "../../actions/auth";
 
 class Header extends Component {
   constructor(props) {
@@ -25,22 +28,42 @@ class Header extends Component {
   }
 
   render() {
+    const { isAuthenticated } = this.props.auth;
+    const navbarForAnonymous = (
+      <Nav className="ml-auto" navbar>
+        <NavItem>
+          <Link className="nav-link" to="/login">
+            Login
+                </Link>
+        </NavItem>
+        <NavItem>
+          <Link className="nav-link" to="/register">
+            Register
+                </Link>
+        </NavItem>
+      </Nav>
+    )
+    const navbarForLoggedInUser = (
+      <Nav>
+        <NavItem>
+          <Link className="nav-link" to="/profile">
+            Profile
+                </Link>
+        </NavItem>
+        <NavItem>
+          <Link className="nav-link" to="/" onClick={this.props.logout}>
+            Logout
+                </Link>
+        </NavItem>
+      </Nav >
+    )
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">AHIHIHIHIHHI</NavbarBrand>
+          <NavbarBrand href="/">reactstrap</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="/components/">Components</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">
-                  GitHub
-                </NavLink>
-              </NavItem>
-            </Nav>
+            {isAuthenticated ? navbarForLoggedInUser : navbarForAnonymous}
           </Collapse>
         </Navbar>
       </div>
@@ -48,4 +71,10 @@ class Header extends Component {
   }
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  }
+}
+
+export default connect(mapStateToProps, {logout})(Header);
